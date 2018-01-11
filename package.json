@@ -7,7 +7,13 @@
   "private": true,
   "scripts": {
     "lerna:clean": "lerna clean -f --yes && rm -rf node_modules",
-    "lerna:install": "lerna bootstrap --hoist --nohoist=moment && yarn link react-scripts",
-    "reset": "npm run lerna:clean && npm run lerna:install"
+    "lerna:install": "lerna bootstrap --hoist --nohoist=moment",
+    "lerna:reset": "npm run lerna:clean && npm run lerna:install",
+    "reset": "npm run lerna:reset && yarn link react-scripts",
+    "postinstall": "npm run lerna:install"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^2.6.0"
   }
 }
