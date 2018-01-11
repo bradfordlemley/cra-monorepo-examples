@@ -55,7 +55,7 @@ Note: this monorepo currently uses lerna+npm
 1. npm install
 1. Install create-react-app/react-scripts fork that supports this
    1. See instructions below to install fork of create-react-app
-   1. yarn link react-scripts <-- ** (use fork of cra, after running commands below to set up cra fork)
+   1. yarn link react-scripts <-- ** (use fork of react-scripts, after running commands below to set up cra fork)
 1. cd apps/cra-app3 and do anything you'd normally do, e.g. npm start/build/test.
 1. (Optional) npm run reset  <-- reset the lerna workspace and link react-scripts, e.g. if something seems messed up
 
