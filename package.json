@@ -10,7 +10,10 @@
     "lerna:install": "lerna bootstrap --hoist --nohoist=moment",
     "lerna:reset": "npm run lerna:clean && npm run lerna:install",
     "reset": "npm run lerna:reset && yarn link react-scripts",
-    "postinstall": "npm run lerna:install"
+    "postinstall": "npm run lerna:install",
+    "app1": "cd apps/cra-app1 && npm start",
+    "app2": "cd apps/cra-app2 && npm start",
+    "app3": "cd apps/cra-app3 && npm start"
   },
   "dependencies": {},
   "devDependencies": {
