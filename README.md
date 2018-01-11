@@ -8,6 +8,7 @@ There are two main issues regarding monorepo support in CRA:
    * This is fixed by [PR 3435](https://github.com/facebookincubator/create-react-app/pull/3435) ([rmhartog's fork](https://github.com/rmhartog/create-react-app/tree/support-yarn-workspaces)).
 1. [Issue 1333](https://github.com/facebookincubator/create-react-app/issues/1333): Support Lerna and/or Yarn Workspaces
    * This is the issue for actually supporting shared source in monorepos.
+   * See [PR 3741](https://github.com/facebookincubator/create-react-app/pull/3741)
 
 #### Example monorepo
 ```
