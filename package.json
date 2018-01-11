@@ -1,0 +1,13 @@
+{
+  "name": "cra-monorepo-example",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lerna:clean": "lerna clean -f --yes && rm -rf node_modules",
+    "lerna:install": "lerna bootstrap --hoist --nohoist=moment && yarn link react-scripts",
+    "reset": "npm run lerna:clean && npm run lerna:install"
+  }
+}
