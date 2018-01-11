@@ -32,8 +32,8 @@ monorepo
       |--comp1.test.js
     |--comp2
       |--package.json: dependencies: ["comp1"]
-      |--comp2.js: import comp1 from 'comp1'
-      |--comp2.test.js  <-- include tests
+      |--index.js: import comp1 from 'comp1'
+      |--index.test.js
 ```
 
 #### Some questions about how monorepo functionality should work:
