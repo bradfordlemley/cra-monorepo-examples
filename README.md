@@ -30,9 +30,8 @@ monorepo
 ### Issues
 There are two main issues regarding monorepo support in CRA:
 1. [Issue 3031](https://github.com/facebookincubator/create-react-app/issues/3031): Can't run create-react-app in workspace
-  * This issue is mainly just that monorepo tools (yarn/lerna) can hoist react-scripts to a top-level node_modules which breaks some create-react-app code that expects react-scripts to be in app's node_modules.
-  * This is fixed by [PR 3435](https://github.com/facebookincubator/create-react-app/pull/3435) ([rmhartog's fork](https://github.com/rmhartog/create-react-app/tree/support-yarn-workspaces)).
-
+   * This issue is mainly just that monorepo tools (yarn/lerna) can hoist react-scripts to a top-level node_modules which breaks some create-react-app code that expects react-scripts to be in app's node_modules.
+   * This is fixed by [PR 3435](https://github.com/facebookincubator/create-react-app/pull/3435) ([rmhartog's fork](https://github.com/rmhartog/create-react-app/tree/support-yarn-workspaces)).
 1. [Issue 1333](https://github.com/facebookincubator/create-react-app/issues/1333): Support Lerna and/or Yarn Workspaces
    * This is the issue for actually supporting shared source in monorepos.
 
@@ -64,7 +63,8 @@ Note: this monorepo currently uses lerna+npm; lerna+yarn, lerna+ yarn workspace,
 
 See [CRA contributing](https://github.com/facebookincubator/create-react-app/blob/master/CONTRIBUTING.md#setting-up-a-local-copy) for more info on using a cra fork.
 
-##### Tests for verify monorepo support ([Issue 1333](https://github.com/facebookincubator/create-react-app/issues/1333))
+### Tests
+#### Tests for verify monorepo support ([Issue 1333](https://github.com/facebookincubator/create-react-app/issues/1333))
 1. Test cra-app3 in this monorepo
    1. Install this monorepo as described above
    1. Open terminal at apps/cra-app3
@@ -72,7 +72,7 @@ See [CRA contributing](https://github.com/facebookincubator/create-react-app/blo
 
 Note: CRA monorepo functionality TBD, see questions above.
 
-##### Tests for verifying "create-react-app" works ([Issue 3031](https://github.com/facebookincubator/create-react-app/issues/3031))
+#### Tests for verifying "create-react-app" works ([Issue 3031](https://github.com/facebookincubator/create-react-app/issues/3031))
 1. "create-react-app" works in workspace
    1. Open terminal at workspace root.
    1. /path/to/forked/packages/create-react-app cra-newapp <-- create app
