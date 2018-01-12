@@ -1,6 +1,15 @@
 #### TLDR;
 This repo is to help develop monorepo support in create-react-app.
 
+### Issues
+There are two main issues regarding monorepo support in CRA:
+1. [Issue 3031](https://github.com/facebookincubator/create-react-app/issues/3031): Can't run create-react-app in workspace
+   * This issue is mainly just that monorepo tools (yarn/lerna) can hoist react-scripts to a top-level node_modules which breaks some create-react-app code that expects react-scripts to be in app's node_modules.
+   * This is fixed by [PR 3435](https://github.com/facebookincubator/create-react-app/pull/3435) ([rmhartog's fork](https://github.com/rmhartog/create-react-app/tree/support-yarn-workspaces)).
+1. [Issue 1333](https://github.com/facebookincubator/create-react-app/issues/1333): Support Lerna and/or Yarn Workspaces
+   * This is the issue for actually supporting shared source in monorepos.
+   * See [PR 3741](https://github.com/facebookincubator/create-react-app/pull/3741)
+
 #### Example monorepo
 ```
 monorepo
@@ -24,42 +33,42 @@ monorepo
       |--comp1.test.js
     |--comp2
       |--package.json: dependencies: ["comp1"]
-      |--comp2.js: import comp1 from 'comp1'
-      |--comp2.test.js  <-- include tests
+      |--index.js: import comp1 from 'comp1'
+      |--index.test.js
 ```
-### Issues
-There are two main issues regarding monorepo support in CRA:
-1. [Issue 3031](https://github.com/facebookincubator/create-react-app/issues/3031): Can't run create-react-app in workspace
-   * This issue is mainly just that monorepo tools (yarn/lerna) can hoist react-scripts to a top-level node_modules which breaks some create-react-app code that expects react-scripts to be in app's node_modules.
-   * This is fixed by [PR 3435](https://github.com/facebookincubator/create-react-app/pull/3435) ([rmhartog's fork](https://github.com/rmhartog/create-react-app/tree/support-yarn-workspaces)).
-1. [Issue 1333](https://github.com/facebookincubator/create-react-app/issues/1333): Support Lerna and/or Yarn Workspaces
-   * This is the issue for actually supporting shared source in monorepos.
 
 #### Some questions about how monorepo functionality should work:
 1. Should tests from cra-comps run when running app tests?
 1. Should files from cra-comps be linted when building app?
-1. Should any directory structure within cra-comps be enforced?
-1. How to flag components that should not be treated as cra-comps?
+1. Should a directory structure be enforced for cra-comps?
+1. How to flag components that should not be treated as cra-comps?  (or should cra-comps be by convention?)
 
 ### Setup Info
 
+Note: this monorepo currently uses lerna+npm
+... lerna+yarn, lerna+yarn workspace, or just yarn workspaces should also work.
+
+
 #### Install this example monorepo
-1. npm install lerna -g  <-- if lerna not already installed
 1. git clone https://github.com/bradfordlemley/cra-monorepo-examples
 1. cd cra-monorepo-examples
-1. npm lerna:install
-1. npm link react-scripts <-- (use fork of cra, after running commands below)
+1. npm install
+1. Install create-react-app/react-scripts fork that supports this
+   1. See instructions below to install fork of create-react-app
+   1. yarn link react-scripts <-- ** (use fork of react-scripts, after running commands below to set up cra fork)
 1. cd apps/cra-app3 and do anything you'd normally do, e.g. npm start/build/test.
-1. run "npm run reset" to reset the lerna workspace, e.g. if playing around installing mods, etc.
+1. (Optional) npm run reset  <-- reset the lerna workspace and link react-scripts, e.g. if something seems messed up
 
-Note: this monorepo currently uses lerna+npm; lerna+yarn, lerna+ yarn workspace, or just yarn workspaces should also work.
+** Note: usage of yarn instead of npm is important here; if you have yarn installed, you MUST use yarn for this command; (if you don't have yarn installed, you can use npm and it should work, but it's not tested).
 
 #### How to use a fork of create-react-app (e.g. that supports this repo)
 1. git clone -b feature-monorepos https://github.com/bradfordlemley/create-react-app  <-- or whatever fork/branch of create-react-app
 1. cd create-react-app
-1. npm install
+1. npm install  <-- note, this will end up installing using yarn if yarn is installed
 1. cd packages/react-scripts
-1. npm link  <-- tell npm you might want to use this react-scripts
+1. yarn link  <-- ** tell yarn you might want to use this react-scripts
+
+** Note: usage of yarn instead of npm is important here; if you have yarn installed, you MUST use yarn for this command; (if you don't have yarn installed, you can use npm and it should work, but it's not tested).
 
 See [CRA contributing](https://github.com/facebookincubator/create-react-app/blob/master/CONTRIBUTING.md#setting-up-a-local-copy) for more info on using a cra fork.
 
