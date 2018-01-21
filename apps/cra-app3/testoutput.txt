@@ -1,0 +1,31 @@
+watchman warning:  Recrawled this watch 2 times, most recently because:
+/Users/bradlemley/prj/cra-monorepo-examples: kFSEventStreamEventFlagUserDropped
+To resolve, please review the information on
+https://facebook.github.io/watchman/docs/troubleshooting.html#recrawl
+To clear this warning, run:
+`watchman watch-del /Users/bradlemley/prj/cra-monorepo-examples ; watchman watch-project /Users/bradlemley/prj/cra-monorepo-examples`
+
+PASS ../cra-app1/src/App.test.js
+PASS ../../cra-comps/comp2/index.test.js
+FAIL src/App.test.js
+  ● Test suite failed to run
+
+    ReferenceError: ict is not defined
+
+      3 | import App from './App';
+      4 | 
+    > 5 | ict('renders without crashing', () => {
+      6 |   const div = document.createElement('div');
+      7 |   ReactDOM.render(<App />, div);
+      8 | });
+      
+      at Object.<anonymous> (src/App.test.js:5:1)
+
+PASS ../../cra-comps/comp1/comp1.test.js
+PASS ../cra-app2/src/App.test.js
+
+Test Suites: 1 failed, 4 passed, 5 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        1.794s
+Ran all test suites.
