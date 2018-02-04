@@ -6,17 +6,19 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "lerna:clean": "lerna clean -f --yes && rm -rf node_modules",
-    "lerna:install": "lerna bootstrap --hoist --nohoist=moment",
-    "lerna:reset": "npm run lerna:clean && npm run lerna:install",
-    "reset": "npm run lerna:reset && yarn link react-scripts",
-    "postinstall": "npm run lerna:install",
-    "app1": "cd apps/cra-app1 && npm start",
-    "app2": "cd apps/cra-app2 && npm start",
-    "app3": "cd apps/cra-app3 && npm start"
+    "clean": "lerna clean -f --yes && rm -rf node_modules",
+    "reset": "yarn run clean && yarn",
+    "app1": "cd apps/cra-app1 && yarn start",
+    "app2": "cd apps/cra-app2 && yarn start",
+    "app3": "cd apps/cra-app3 && yarn start"
   },
   "dependencies": {},
   "devDependencies": {
     "lerna": "^2.6.0"
-  }
+  },
+  "workspaces": [
+    "apps/*",
+    "comps/*",
+    "cra-comps/*"
+  ]
 }
