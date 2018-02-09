@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@bradfordlemley/react-scripts": "^2.0.0-plus.2",
+    "react-scripts": "2.0.0-next.47d2d941",
     "comp1": "^0.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
