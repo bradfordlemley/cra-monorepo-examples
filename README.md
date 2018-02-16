@@ -20,8 +20,9 @@ There are two main issues regarding monorepo support in CRA:
 1. Monorepo with cra-compatible and non-cra-compatible components
 2. Cra-comps w/ source not at root  (e.g. nwb components)
 3. Apps that include a cra-comp, but don't want to build it.
-4. cra-comps from private registry (instead of monorepo)
+4. Cra-comps from private registry (instead of monorepo)
 5. Discourage/prevent cra-comps from being published (non-standard in ecosystem)
+6. Cra-comps as transitive dependencies (app depends on cra-comp2, cra-comp2 depends on cra-comp1)
 
 #### Example monorepo
 ```
