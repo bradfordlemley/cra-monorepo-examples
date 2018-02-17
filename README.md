@@ -1,11 +1,142 @@
 #### TLDR;
-This repo is to help develop monorepo support in create-react-app.
-
-Shared components in monorepos are supported in react-scripts 2.0.0-alpha!
-
-* See [Monorepo Section in User Guide](https://github.com/facebook/create-react-app/blob/next/packages/react-scripts/template/README.md#sharing-components-in-a-monorepo) for more info.
+This repo is to help develop monorepo / shared components support in create-react-app.
 
 * Follow [2.0.0 roadmap](https://github.com/facebook/create-react-app/issues/3815) for more alpha release info.
+
+#### Definitions
+"cra-compatible": contains source with JSX + ES features supported by Cra/Rs
+
+#### Standard Use Cases (UC)
+1. Monorepo with shared cra-compatible source components
+2. Monorepo with transitive shared cra-compatible source dependencies
+```
+monorepo/
+  app1/
+    src/
+      App.js: import comp1 from 'comp1'
+  app2/
+    src/
+      App.js: import comp1 from 'comp1'
+  comp1/
+    index.js: import comp2 from 'comp2'  <-- transitive
+  comp2/
+    index.js
+```
+
+#### Extended Use Cases (XC)
+1. Non-cra-compatible shared components (not source, have their own build)
+2. Cra-compatible shared components w/ source not at root  (e.g. nwb components)
+3. Include a cra-compatible component, but don't build it.
+4. Include cra-compatible shared source components from private registry
+5. Include cra-compatible transitive source components from private registry
+6. Shared comps without monorepo tool, ie. symlink-ish
+7. Shared comps without monorepo tool, ie. symlink-ish
+```
+monorepo/
+  package.json
+    workspaces: ["app*", "comp*"]
+  app1/
+    src/
+      App.js:
+        import comp1 from 'comp1'  <-- UC#1: import shared source comp
+        import comp4 from 'comp4'  <-- XC#3: import, but don't build
+  app2/
+    src/
+      App.js:
+        import comp1 from 'comp1'
+        import comp3 from 'comp3'  <-- XC#1: non-cra-compatible
+        import comp4 from 'comp4'  <-- XC#2: cra-compatible, source in /src
+  comp1/
+    index.js: import comp2 from 'comp2'  <-- UC#2: transitive cra-compatible src
+  comp2/
+    index.js
+  comp3/  <-- not cra-compatible
+    index.xjs
+  comp4/
+    src/
+      index.js
+  nonws-comp1/
+    package.json
+      source: "src"
+    src/
+      index.js
+  nonws-comp2/
+    index.js
+```
+
+#### Other Requirements
+Discourage/prevent components from being published with only source (non-standard in ecosystem)
+
+#### Proposals
+1. sourceDependencies in package.json.
+```
+monorepo/
+  app1/
+    package.json
+      dependencies: ["comp4"]
+      sourceDependencies: ["comp1"]
+    src/
+      App.js
+        import comp1 from 'comp1' // UC#1: import shared source comp
+        import comp4 from 'comp4' // XC#3: import, but don't build
+  app2/
+    package.json
+      dependencies:  ["comp1", "comp3", "comp4", "comp5"]
+      sourceDependencies: ["comp1", "comp4", "comp5"],
+    src/
+      App.js
+        import comp1 from 'comp1'
+        import comp3 from 'comp3' // XC#1: non-cra-compatible
+        import comp4 from 'comp4' // XC#2: cra-compatible, source in /src
+        import comp5 from 'comp5' // XC#4: cra-compatible source from private registry
+    node_modules/
+      comp5/
+        package.json
+          dependencies: ["comp6"],
+          private: true,
+          source: "src",
+          sourceDependencies: ["comp6"]
+        src/
+          index.js
+            import comp6 from 'comp6' // XC#5: transitive src from private registry
+        node_modules/
+          comp6/
+            package.json
+              source: "src",
+              private: true
+            src/
+              index.js
+  comp1/
+    package.json
+      dependencies: ["comp2"],
+      name: "comp1",
+      private: true,
+      sourceDependencies: ["comp2"]
+    index.js
+      import comp2 from 'comp2' // UC#2: transitive cra-compatible src
+  comp2/
+    package.json
+      name: "comp2"
+      private: true
+    index.js
+  comp3/
+    package.json
+      module: "lib",
+      name: "comp3"
+    index.xjs  // XC#1: not cra-compatible source, has own build
+    lib/
+      index.js // build output
+  comp4/
+    package.json
+      name: "comp4",
+      private: true,
+      source: "src/"
+    src/
+      index.js  // XC#2: source not in root
+```
+2. Current implementation Assume any
+  * See [Monorepo Section in User Guide](https://github.com/facebook/create-react-app/blob/next/packages/react-scripts/template/README.md#sharing-components-in-a-monorepo) for more info.
+
 
 ### Issues
 There are two main issues regarding monorepo support in CRA:
@@ -16,12 +147,50 @@ There are two main issues regarding monorepo support in CRA:
    * This is the issue for actually supporting shared source in monorepos.
    * See [PR 3741](https://github.com/facebookincubator/create-react-app/pull/3741) (merged)
 
-#### Extended Use Cases
-1. Monorepo with cra-compatible and non-cra-compatible components
-2. Cra-comps w/ source not at root  (e.g. nwb components)
-3. Apps that include a cra-comp, but don't want to build it.
-4. cra-comps from private registry (instead of monorepo)
-5. Discourage/prevent cra-comps from being published (non-standard in ecosystem)
+
+
+```
+monorepo
+  |--packages.json: workspaces: ["apps/*", "comps/*", "cra-comps/*"] <-- (yarn workspace)
+  |--apps
+    |--cra-app1 <-- basic cra-app, doesn't use any monorepo comps
+    |--cra-app2 <-- basic cra-app, doesn't use any monorepo comps
+    |--cra-app3 <-- uses some monorepo comps
+      |--package.json: sourceDependencies: ["../../comps/comp1"]
+  |--comps
+    |--comp1  <-- standard shared comp, ok!
+      |--package.json: main: comp1.js
+      |--comp1.js
+      |--comp1.test.js
+    |--comp2  <-- comp with dependency on another cra-comp, ok!
+      |--package.json: sourceDependencies: ["../comp1"]
+      |--index.js: import comp1 from 'comp1'
+      |--index.test.js
+    |--comp3  <-- comp w/ built output, ok, but will (unnecessarily) transpile
+      |--package.json: main: build/index.js
+      |--build/index.js  <-- don't transpile?
+      |--index.js
+      |--index.test.js <-- don't test?
+    |--comp4  <-- cra-comp w/ source under /src, not handled (tbd)
+      |--package.json: dependencies: ["comp1"]
+      |--src
+        |--index.js: import comp1 from 'comp1'
+        |--index.test.js
+    |--comp5  <-- comp with its own build and test, not handled (tbd)
+      |--package.json: dependencies: ["comp1"]
+      |--index.js: import comp1 from 'comp1'
+      |--index.test.js
+    |--comp6  <-- comp with dependency on another cra-comp, not source
+      |--package.json: dependencies: {"comp1": "^0.1.0"}
+      |--index.js: import comp1 from 'comp1'
+      |--index.test.js
+    |--comp7  <-- comp with src dir
+      |--package.json: source: "src"
+      |--src
+        |--index.js
+        |--index.test.js
+
+```
 
 #### Example monorepo
 ```
