@@ -112,19 +112,8 @@ monorepo/
         import comp5 from 'comp5'; // XC#4: cra-compatible source from private registry
         import kewl1 from 'kewl-comps/comp1'; // UC#3
         import kewl3 from 'kewl-comps/comp3'; // UC#3
-  app2/
-    package.json
-      dependencies: {
-        "comp1": ">0.0.0",
-        "comp4": ">0.0.0"
-      }
-      sourceDependencies: ["comp1"]
-    src/
-      App.js
-        import comp1 from 'comp1'; // UC#1: import shared source comp
-        import comp4 from 'comp4'; // XC#3: import, but don't build
     node_modules/
-      comp5/
+      comp5/  // XC#4: cra-compatible source from private registry
         package.json
           dependencies: ["comp6"]
           private: true
@@ -140,6 +129,17 @@ monorepo/
               private: true
             src/
               index.js
+  app2/
+    package.json
+      dependencies: {
+        "comp1": ">0.0.0",
+        "comp4": ">0.0.0"
+      }
+      sourceDependencies: ["comp1"]
+    src/
+      App.js
+        import comp1 from 'comp1'; // UC#1: import shared source comp
+        import comp4 from 'comp4'; // XC#3: import, but don't build
   comp1/
     package.json
       dependencies: ["comp2"]
