@@ -115,7 +115,10 @@ monorepo/
     node_modules/
       comp5/  // XC#4: cra-compatible source from private registry
         package.json
-          dependencies: ["comp6"]
+          name: "comp5"
+          dependencies: {
+            "comp6": ">0.0.0"
+          }
           private: true
           source: "src"
           sourceDependencies: ["comp6"]
@@ -125,6 +128,7 @@ monorepo/
         node_modules/
           comp6/
             package.json
+              name: "comp6"
               source: "src"
               private: true
             src/
@@ -142,7 +146,9 @@ monorepo/
         import comp4 from 'comp4'; // XC#3: import, but don't build
   comp1/
     package.json
-      dependencies: ["comp2"]
+      dependencies: {
+        "comp2": ">0.0.0"
+      }
       name: "comp1"
       private: true
       sourceDependencies: ["comp2"]
@@ -164,18 +170,19 @@ monorepo/
     package.json
       name: "comp4"
       private: true
-      source: "src/"
+      source: "src"
     src/
       index.js  // XC#2: source not in root
-    kewl-comps/
-      package.json
-        source: "src"
-        private: true
-      src/
-        comp1.js
-        comp2.js
-        comp3.js
-          import comp2 from './comp2'; // import from within pkg
+  kewl-comps/
+    package.json
+      name: "kewl-comps"
+      source: "src"
+      private: true
+    src/
+      comp1.js
+      comp2.js
+      comp3.js
+        import comp2 from './comp2'; // import from within pkg
 ```
 
 #### Some questions about how monorepo functionality should work:
