@@ -6,7 +6,7 @@ co-authored by @gaearon
 ## Overview
 "Source packages" are packages which may contain non-standard language features (e.g., React JSX) and are built by the consumer.
 
-They are included as standard "dependencies" and declared as source by adding them to "sourceDependencies", such as:
+In this proposal, "source packages" are included as standard "dependencies" and declared as source by adding them to "sourceDependencies":
 ```
 package.json
 {
@@ -15,7 +15,7 @@ package.json
 }
 ```
 
-Source packages make it easy for developers to utilize shared source, allowing dependencies to be managed by standard tools, and allowing the consumer build system to easily support features like hot-reloading, de-duping, etc, across all source.
+Supporting "source packages" in this way makes it easy for developers to utilize shared source, at the same time, allowing dependencies to be managed by standard tools, and allowing the consumer build system to support features like hot-reloading, de-duping, etc, across all source.
 
 ## Pseudo-algorithm for finding sourcePackages
 ```
