@@ -24,7 +24,7 @@ Since source packages may contain non-standard language features, they should be
 
 Source packages should be testable by the consumer, just like the consumer's own source. This facilitates concurrent development of shared components.
 
-This proposal does not include a mechansim to describe source code, e.g. which language features used.  It assumes that the consumer knows which source packages it is including and is able to build them, e.g. the included source packages have the same build requirements as the consumer's own source.
+This proposal does not include a mechansim to describe source code, e.g. which language features the source package uses.  It assumes that the consumer knows which source packages it is including and is able to build them, e.g. the included source packages have the same build requirements as the consumer's own source.
 
 ## Pseudo-algorithm for finding source packages
 ```
