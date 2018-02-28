@@ -1,12 +1,17 @@
-# RFC: sourceDependencies
-Provides a mechanism for sharing source via "source packages".
+# RFC: Source Packages
+A developer-friendly, tool-friendly, and eco-system-friendly mechanism for sharing source.
 
-co-authored by @gaearon
+co-authored with @gaearon
 
 ## Overview
-"Source packages" are packages which may contain non-standard language features (e.g., React JSX) and are built by the consumer.
 
-In this proposal, "source packages" are included as standard "dependencies" and declared as source by adding them to "sourceDependencies":
+"Source packages" are exactly the same as standard npm packages, except that they may contain non-standard language features (e.g. React JSX), and they are built by the consumer.
+
+Being standard npm packages, they can be managed by standard tools and can be truly modular since they can declare their own dependencies.
+
+Being built by the consumer, the consuming build can treat them as if they were part of its own source, providing the same build features and developer experience, e.g. hot-reloading, de-duping, etc.
+
+"Source packages" are included as standard dependencies and declared as source by including them in sourceDependencies:
 ```
 package.json
 {
@@ -15,9 +20,9 @@ package.json
 }
 ```
 
-Supporting "source packages" in this way makes it easy for developers to utilize shared source, at the same time, allowing dependencies to be managed by standard tools, and allowing the consumer build system to support features like hot-reloading, de-duping, etc, across all source.
+Since source packages may contain non-standard language features, they should be marked as "private".  They can be contained in monorepos.  They should only be published to private registries.
 
-## Pseudo-algorithm for finding sourcePackages
+## Pseudo-algorithm for finding source packages
 ```
 sourcePackages = Map()
 
@@ -31,18 +36,24 @@ FindSourcePkgs(package.json):
 
 FindSourcePkgs(initial package.json)
 ```
-
 Supports:
 * Transitive source dependencies.
 * Monorepos and private registries.
 * Source entry points.
 
-## Tests in Source Dependencies
-In order to facilitate concurrent development of shared components, source dependencies should be testable by the consumer.
+## Testing
+Source packages should be testable by the consumer, just like the consumer's own source is tested.
 
-React-scripts will automatically include tests defined in source dependency packages along with the app tests.
+This facilitates concurrent development of shared components.
 
-## sourceDependencies Examples
+## Source code type
+This proposal does not include a mechansim to describe source code, e.g. language features used.
+
+The proposal assumes that the consumer knows which source packages it is including and is able to build them, e.g. the included source packages have the same build requirements as the consumer's own source.
+
+## Example
+This repo demonstrates many of the use cases supported by this proposal.
+
 ```
 repo/
   app1/
@@ -53,8 +64,8 @@ repo/
         "kewl-comps": ">0.0.0"
       }
       sourceDependencies: [
-        "comp1",         // from within monorepo
-        "kewl-comps"     // example with multiple modules
+        "comp1",         // single module in package
+        "kewl-comps"     // multiple modules in package
       ]
     src/
       App.js
@@ -86,24 +97,24 @@ repo/
         comp5: ">0.0.0"
       }
       sourceDependencies: [
-        comp5  // from private registry
+        comp5
       ]
-      source: "src"
+      source: "src"  // source entry point
       private: true
     src/
       comp1.js
-        import comp2 from './comp2';
+        import comp2 from './comp2'; // internal transitive source dependency
         import comp5 from 'comp5';
       comp2.js
     node_modules/
-      comp5/  // installed from private registry
+      comp5/  // source dependency from private registry
         package.json
           name: "comp5"
           dependencies: {
             "comp6": ">0.0.0"
           }
           sourceDependencies: [
-            "comp6" // transitive source dependency from private registry
+            "comp6" // transitive source dependency
           ]
           source: "src"
           private: true
@@ -111,13 +122,9 @@ repo/
           index.js
             import comp6 from 'comp6';
         node_modules/
-          comp6/  // nested, installed from private registry
+          comp6/  // transitive source dependency from private registry
             package.json
               name: "comp6"
               private: true
             index.js
 ```
-
-## Limitations
-* There is not a way to describe source, e.g. language features included in the source.
-* In other words, the proposal assumes that all source dependencies have the same build requirements as the consumer.
