@@ -117,7 +117,7 @@ repo/
           index.js
             import comp6 from 'comp6';
         node_modules/
-          comp6/  // transitive source dependency from private registry
+          comp6/  // nested transitive source dependency from private registry
             package.json
               name: "comp6"
               private: true
