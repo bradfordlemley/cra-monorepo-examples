@@ -16,16 +16,14 @@ package.json
 }
 ```
 
-* Being standard npm packages, they can be managed by standard tools and can be truly modular since they can declare their own dependencies.
+Being standard npm packages, they can be managed by standard tools and can be truly modular since they can declare their own dependencies.
 
-* Being built by the consumer, the consuming build can treat them as if they were part of its own source, providing the same build features and developer experience, e.g. hot-reloading, de-duping, etc.
+Being built by the consumer, the consuming build can provide the same build features and developer experience, e.g. transpiling, hot-reloading, de-duping, etc., as if it were its own source.
 
-* Since source packages may contain non-standard language features, they should be marked as "private".  They can be contained in monorepos and/or published to private registries.
+Since source packages may contain non-standard language features, they should be marked as "private".  They can be contained in monorepos and/or published to private registries.
 
-## Testing
 Source packages should be testable by the consumer, just like the consumer's own source. This facilitates concurrent development of shared components.
 
-## Source code type
 This proposal does not include a mechansim to describe source code, e.g. which language features used.  It assumes that the consumer knows which source packages it is including and is able to build them, e.g. the included source packages have the same build requirements as the consumer's own source.
 
 ## Pseudo-algorithm for finding source packages
