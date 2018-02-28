@@ -5,26 +5,26 @@ co-authored with @gaearon
 
 ## Overview
 
-"Source packages" are the same as standard npm packages, except they may contain non-standard language features (e.g. React JSX) and they are built by the consumer.
+"Source packages" are the same as standard npm packages, except they may contain non-standard language features (e.g. React JSX) and are built by the consumer.
 
-"Source packages" are included as standard dependencies and declared as source by including them in sourceDependencies:
+"Source packages" are included as standard dependencies in package.json and declared as source by also including them in sourceDependencies:
 ```
 package.json
 {
   "dependencies": {"pkg1": ">0.0.0"},
-  "sourceDependencies": ["pkg1"]
+  "sourceDependencies": ["pkg1"]  // declare as source package
 }
 ```
 
-Being standard npm packages, they can be managed by standard tools and can be truly modular since they can declare their own dependencies.
+Being standard npm packages, source packages can be managed by standard tools and can be truly modular since they can declare their own dependencies.
 
-Being built by the consumer, the consuming build can provide the same build features and developer experience, e.g. transpiling, hot-reloading, de-duping, etc., as if it were its own source.
+Being built by the consumer, the consuming build can provide the same build features and developer experience for source packages, e.g. transpiling, hot-reloading, de-duping, etc., as if it were its own source.
 
 Since source packages may contain non-standard language features, they should be marked as "private".  They can be contained in monorepos and/or published to private registries.
 
 Source packages should be testable by the consumer, just like the consumer's own source. This facilitates concurrent development of shared components.
 
-This proposal does not include a mechansim to describe source code, e.g. which language features the source package uses.  It assumes that the consumer knows which source packages it is including and is able to build them, e.g. the included source packages have the same build requirements as the consumer's own source.
+This proposal does not include a mechansim for a source package to describe its source code, e.g. which language features it uses.  The proposal assumes that the consumer knows which source packages it is including and is able to build them, e.g. that the included source packages have the same build requirements as the consumer's own source.
 
 ## Pseudo-algorithm for finding source packages
 ```
