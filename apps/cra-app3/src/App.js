@@ -4,6 +4,7 @@ import './App.css';
 
 import {Add, Subtract} from 'comp1';
 import Comp2 from 'comp2';
+import Comp4 from 'comp4';
 
 class App extends Component {
   render() {
@@ -19,6 +20,7 @@ class App extends Component {
         <Add a={1} b={1} />
         <Subtract a={1} b={1} />
         <Comp2 a={1} b={1} />
+        <Comp4/>
       </div>
     );
   }
