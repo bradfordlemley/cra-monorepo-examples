@@ -26,5 +26,8 @@
       "Firefox ESR",
       "not ie < 11"
     ]
-  }
+  },
+  "sourceWorkspaces": [
+    "cra-comps/*"
+  ]
 }
