@@ -1,12 +1,25 @@
-#### TLDR;
-This repo is to help develop monorepo support in create-react-app.
+## Monorepo with shared components
+```
+monorepo
+  |--apps
+    |--app1
+    |--app2
+  |--components
+    |--component1
+    |--component2
+    |--component3
+```
+### CRA support
+Support for monorepos was available in CRA 2.0 alphas, but was reverted in the final CRA 2.0 release.
+* [2.0.0 roadmap](https://github.com/facebook/create-react-app/issues/3815) for more alpha release info.
+* [2.0.0 completion](https://github.com/facebook/create-react-app/issues/5024) for info on dropping monorepo support.
 
-Shared components in monorepos are supported in react-scripts 2.0.0-alpha!
+CRA is suggesting using [nwb](https://github.com/insin/nwb) to build components separately from CRA.
 
-* See [Monorepo Section in User Guide](https://github.com/facebook/create-react-app/blob/next/packages/react-scripts/template/README.md#sharing-components-in-a-monorepo) for more info.
+### CRA fork
+I like the workflow that allows shared components to be built and tested with the app itself, so I'm maintaining a [CRA fork](https://github.com/bradfordlemley/create-react-app) with monorepo support, see [user guide](https://github.com/bradfordlemley/create-react-app/tree/plus2/packages/react-scripts/template#sharing-components-in-a-monorepo) for more info.
 
-* Follow [2.0.0 roadmap](https://github.com/facebook/create-react-app/issues/3815) for more alpha release info.
-
+# CRA monorepo support notes
 ### Issues
 There are two main issues regarding monorepo support in CRA:
 1. [Issue 3031](https://github.com/facebookincubator/create-react-app/issues/3031): Can't run create-react-app in workspace
