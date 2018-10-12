@@ -1,4 +1,5 @@
-## Monorepo with shared components
+## Example monorepo
+A monorepo where apps share components might look like this:
 ```
 monorepo
   |--apps
