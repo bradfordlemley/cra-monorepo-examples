@@ -10,15 +10,23 @@ monorepo
     |--component2
     |--component3
 ```
-### CRA support
-Support for monorepos was available in CRA 2.0 alphas, but was reverted in the final CRA 2.0 release.
+### Integrated CRA support
+```Integrated``` support for monorepos was available in CRA 2.0 alphas, but was reverted in the final CRA 2.0 release.
 * [2.0.0 roadmap](https://github.com/facebook/create-react-app/issues/3815) for more alpha release info.
 * [2.0.0 completion](https://github.com/facebook/create-react-app/issues/5024) for info on dropping monorepo support.
 
-CRA is suggesting using [nwb](https://github.com/insin/nwb) to build components separately from CRA.
+```Integrated``` here means CRA would build (and test) other packages/components in the monorepo.
 
-### CRA fork
-I like the workflow that allows shared components to be built and tested with the app itself, so I'm maintaining a [CRA fork](https://github.com/bradfordlemley/create-react-app) with monorepo support, see [user guide](https://github.com/bradfordlemley/create-react-app/tree/plus2/packages/react-scripts/template#sharing-components-in-a-monorepo) for more info.
+The alternative is for the other packages in the monorepo to have their own build/test/etc, and orchestrate them using monorepo tools like Lerna, and this seems to be what CRA is now suggesting.
+
+[CRA 2.0 note](https://github.com/facebook/create-react-app/issues/5024) suggests using [nwb](https://github.com/insin/nwb) to build components and indicates that CRA will document a monorepo set up.
+
+There's also this [example workspace](https://github.com/bugzpodder/yarn-workspace-cra) that builds components with babel and shows how to orchestrate with Lerna.
+
+### CRA fork with integrated support
+I like the workflow that allows shared components to be built and tested with the app itself and without need to orchestrate with Lerna, so I'm maintaining a [CRA fork](https://github.com/bradfordlemley/create-react-app) with monorepo support, see [user guide](https://github.com/bradfordlemley/create-react-app/tree/plus2/packages/react-scripts/template#sharing-components-in-a-monorepo) for more info.
+
+However, I recommend using the official CRA, following the maintainers' advice, and contributing to help improve the situation.
 
 # CRA monorepo support notes
 ### Issues
